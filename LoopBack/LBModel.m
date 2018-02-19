@@ -21,6 +21,10 @@
 
 @implementation LBModel
 
++ (NSMutableDictionary *)containerPropertyClassMapper {
+    return nil;
+}
+
 - (instancetype)initWithRepository:(SLRepository *)repository parameters:(NSDictionary *)parameters {
     self = [super initWithRepository:repository parameters:parameters];
 
@@ -175,10 +179,5 @@
     }
     return modelsDict;
 }
-
-+ (NSMutableDictionary *)containerPropertyClassMapper {
-    return nil;
-}
-
 
 @end

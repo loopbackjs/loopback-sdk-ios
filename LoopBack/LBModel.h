@@ -55,6 +55,8 @@
  */
 - (NSDictionary *)toDictionary;
 
++ (NSMutableDictionary *)containerPropertyClassMapper;
+
 @end
 
 /**
@@ -96,6 +98,5 @@
  * @return      A dictionary of model
  */
 + (NSMutableDictionary *)repositoriesDict;
-+ (NSMutableDictionary *)containerPropertyClassMapper;
 
 @end
