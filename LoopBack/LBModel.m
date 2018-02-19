@@ -133,16 +133,25 @@
                 else if (strncmp(type, "T@\"CLLocation\",", 15) == 0) {
                     obj = [SLObject locationFromEncodedProperty:obj];
                 }
-            } else if ([obj isKindOfClass:[NSArray class]])
-            {
-                LBModelRepository* repository = [LBModelRepository.repositoriesDict objectForKey:key];
-                NSMutableArray* tmp = [NSMutableArray array];
-                for (NSDictionary* dict in obj)
-                {
-                    LBModel* model = [repository modelWithDictionary:dict];
-                    [tmp addObject:model];
+            }
+            else if ([obj isKindOfClass:[NSArray class]]) {
+                NSMutableDictionary *mapper = [[self class] containerPropertyClassMapper];
+                NSString *className = key;
+                
+                if (mapper && mapper[key]) {
+                     className = NSStringFromClass(mapper[key]);
                 }
-                obj = tmp;
+                
+                LBModelRepository *repository = [LBModelRepository.repositoriesDict objectForKey:className];
+                
+                if (repository) {
+                    NSMutableArray *tmp = [NSMutableArray array];
+                    for (NSDictionary *dict in obj) {
+                        LBModel *model = [repository modelWithDictionary:dict];
+                        [tmp addObject:model];
+                    }
+                    obj = tmp;
+                }
             }
 
             @try {
@@ -159,12 +168,16 @@
 }
 
 + (NSMutableDictionary *) repositoriesDict {
-    static NSMutableDictionary *g_modelsDict = nil;
-    if (g_modelsDict == nil) {
+    static NSMutableDictionary *modelsDict = nil;
+    if (modelsDict == nil) {
         // create dict
-        g_modelsDict = [[NSMutableDictionary alloc] init];
+        modelsDict = [[NSMutableDictionary alloc] init];
     }
-    return g_modelsDict;
+    return modelsDict;
+}
+
++ (NSMutableDictionary *)containerPropertyClassMapper {
+    return nil;
 }
 
 

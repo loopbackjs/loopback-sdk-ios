@@ -95,6 +95,7 @@
  *
  * @return      A dictionary of model
  */
-+ (NSMutableDictionary*) repositoriesDict;
++ (NSMutableDictionary *)repositoriesDict;
++ (NSMutableDictionary *)containerPropertyClassMapper;
 
 @end
